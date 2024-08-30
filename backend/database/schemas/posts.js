@@ -8,8 +8,8 @@ const posts = new mongoose.Schema({
     likes: Array,
     edited: Boolean,
     createdAt: Number,
-    category: String, //take-off, landing, flying
-    vehicle_type: String, //helicopter, fighter jet, passenger airplane, cargo airplane, plane
+    category: String, //take-off, landing, flying, other
+    aircraft_model: String, 
 
 }) 
 
