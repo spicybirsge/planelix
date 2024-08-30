@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 
 const accounts = new mongoose.Schema({
     _id: String,
+    pid: String,
     email: String,
     username: String,
     name: String,
