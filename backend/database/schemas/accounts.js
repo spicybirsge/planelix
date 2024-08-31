@@ -5,6 +5,7 @@ const accounts = new mongoose.Schema({
     pid: String,
     email: String,
     username: String,
+    activated: Boolean, 
     name: String,
     followers: Array,
     following: Array,
