@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', true);
 }
 
-
+app.use('/api/v1/auth', require('./routes/v1/auth'));
 app.use('/api/v1/create', require('./routes/v1/create'));
 app.use('/api/v1/delete', require('./routes/v1/delete'));
 app.use('/api/v1/read', require('./routes/v1/read'));

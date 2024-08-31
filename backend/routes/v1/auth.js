@@ -86,4 +86,65 @@ router.post("/register", reCaptchaVerify, async (req, res) => {
   }
 })
 
+router.post("/verify-login", async(req, res) => {
+  try {
+    const {token} = req.body;
+    if(!token) {
+      return res.status(400).json({success:false, message:"token invalid or expired", code:400})
+    }
+
+    jwt.verify(token, JWT_SECRET, {expiresIn: '2h'}, async (err, tokenData) => {
+      if (err) {
+        return res
+          .status(401)
+          .json({
+            success: false,
+            message: "Login token invalid or expired",
+          });
+      }
+
+      if(tokenData.type === "USER_ACCOUNT_LOGIN_TOKEN") {
+
+        const fetchUser = await accounts.findOne({
+          _id: tokenData._id,
+          pid: tokenData.pid
+        })
+
+        if(!fetchUser) {
+          return res
+          .status(401)
+          .json({
+            success: false,
+            message: "Login token invalid or expired",
+          })
+        } 
+
+        if(!fetchUser.activated) {
+          fetchUser.activated = true;
+          await fetchUser.save()
+        }
+        const loginTokenData = {
+          _id: fetchUser._id,
+          pid: fetchUser.pid,
+          type: 'USER_ACCOUNT_TOKEN'
+        }
+
+        const loginToken = jwt.sign(loginTokenData, JWT_SECRET)
+        return res.status(200).json({success: true, message:"login success", token: loginToken,code: 200})
+
+      } else {
+        return res
+        .status(401)
+        .json({
+          success: false,
+          message: "Login token invalid or expired",
+        });
+      }
+    })
+  } catch (e) {
+    console.error(e)
+    return res.status(500).json({ success: false, message: "Internal server error", code: 500 })
+  }
+})
+
 module.exports = router;
