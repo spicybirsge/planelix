@@ -6,7 +6,7 @@ const tags = new mongoose.Schema({
     posts: Array,
     last_posted: Number
 
-}) 
+})
 
 module.exports = mongoose.model('Tags', tags)
 

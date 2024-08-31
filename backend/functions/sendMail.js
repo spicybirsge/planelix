@@ -1,26 +1,26 @@
 const nodemailer = require('nodemailer')
 
-const sendMail = async(message, subject, reciever) => {
+const sendMail = async (message, subject, reciever) => {
 
-    if(!message) {
+    if (!message) {
         throw `message is required.`
     }
-    if(!subject) {
+    if (!subject) {
         throw `subject is required.`
     }
-    if(!reciever) {
+    if (!reciever) {
         throw `reciever is required.`
     }
 
-    if(typeof message !== "string") {
+    if (typeof message !== "string") {
         throw `message must be a string.`
 
     }
 
-    if(typeof subject !== "string") {
+    if (typeof subject !== "string") {
         throw `subject must be a string.`
     }
-    if(typeof reciever !== "string") {
+    if (typeof reciever !== "string") {
         throw `reciever must be a string.`
     }
 
@@ -28,17 +28,17 @@ const sendMail = async(message, subject, reciever) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: process.env.EMAIL,
-          pass: process.env.EMAIL_PASSWORD
+            user: process.env.EMAIL,
+            pass: process.env.EMAIL_PASSWORD
         }
-      });
-      const mailOptions = {
+    });
+    const mailOptions = {
         from: process.env.EMAIL,
         to: reciever,
         subject: subject,
         text: message
-      };
-      return transporter.sendMail(mailOptions)
+    };
+    return transporter.sendMail(mailOptions)
 }
 
 module.exports = sendMail;

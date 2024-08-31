@@ -17,8 +17,8 @@ app.use(logger('combined'));
 app.use(cors());
 app.use(errorHandler);
 app.set('json spaces', 1)
-if(process.env.NODE_ENV === 'production') {
-    app.set('trust proxy', true); 
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', true);
 }
 
 
@@ -28,12 +28,12 @@ app.use('/api/v1/read', require('./routes/v1/read'));
 app.use('/api/v1/update', require('./routes/v1/update'));
 
 app.get('/status', async (req, res) => {
-    res.status(200).json({success: true, message: "All systems operational.", code: 200})
+    res.status(200).json({ success: true, message: "All systems operational.", code: 200 })
 })
 
 app.all('*', async (req, res) => {
-    
-    res.status(404).json({success: false, message: "No matching route found.", code: 404})
+
+    res.status(404).json({ success: false, message: "No matching route found.", code: 404 })
 
 })
 

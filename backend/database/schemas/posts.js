@@ -9,9 +9,9 @@ const posts = new mongoose.Schema({
     edited: Boolean,
     createdAt: Number,
     category: String, //take-off, landing, flying, other
-    aircraft_model: String, 
+    aircraft_model: String,
 
-}) 
+})
 
 module.exports = mongoose.model('Posts', posts)
 
