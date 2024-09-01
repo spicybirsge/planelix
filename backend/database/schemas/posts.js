@@ -10,6 +10,7 @@ const posts = new mongoose.Schema({
     createdAt: Number,
     category: String, //take-off, landing, flying, other
     aircraft_model: String,
+    approved: Boolean
 
 })
 
