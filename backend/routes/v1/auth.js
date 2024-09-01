@@ -7,7 +7,8 @@ const uuid = require("uuid")
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = process.env.JWT_SECRET
 const sendMail = require("../../functions/sendMail")
-const validateUsername = require("../../functions/validateUsername")
+const validateUsername = require("../../functions/validateUsername");
+const verifyUserToken = require("../../middleware/verifyUserToken")
 
 router.post("/register", reCaptchaVerify, async (req, res) => {
   try {
@@ -118,6 +119,7 @@ router.post("/verify-login", async(req, res) => {
           .json({
             success: false,
             message: "Login token invalid or expired",
+            cpde:401
           });
       }
 
@@ -134,6 +136,7 @@ router.post("/verify-login", async(req, res) => {
           .json({
             success: false,
             message: "Login token invalid or expired",
+            code: 401
           })
         } 
 
@@ -201,9 +204,31 @@ router.post("/login", reCaptchaVerify, async(req, res) => {
 })
 
 
-router.post("/terminate-sessions", async(req, res) => {
+router.post("/terminate-sessions", verifyUserToken,async(req, res) => {
   try { 
-    //soonTm
+    const account = await accounts.findOne({_id: req.account._id})
+    const newPid = uuid.v4()
+
+    account.pid = newPid;
+    await account.save();
+    const tokenData = {
+      _id: account.id,
+      pid: newPid,
+      type: 'USER_ACCOUNT_TOKEN'
+    }
+
+    const newToken = jwt.sign(tokenData, JWT_SECRET)
+    return res.status(200).json({success: true, message: "all active sessions terminated", token:newToken, code: 200})
+    } catch (e) {
+    console.error(e)
+    return res.status(500).json({ success: false, message: "Internal server error", code: 500 })
+  }
+})
+
+router.get("/getuser", verifyUserToken, async(req, res) => {
+  try { 
+    const account = req.account;
+    return res.status(200).json({success: true, message: "authorized", data: account, code: 200})
     } catch (e) {
     console.error(e)
     return res.status(500).json({ success: false, message: "Internal server error", code: 500 })
