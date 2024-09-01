@@ -5,7 +5,7 @@ const reCaptchVerify = async (req, res, next) => {
 
     try {
         if (CAPTCHA_DISABLED) {
-            console.log("Skipping reCaptcha verification since CAPTCHA_DISABLED was set to false")
+            console.log("Skipping reCaptcha verification since CAPTCHA_DISABLED was set to true")
             return next()
         }
         const { r_key } = req.query;

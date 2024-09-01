@@ -7,6 +7,7 @@ const uuid = require("uuid")
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = process.env.JWT_SECRET
 const sendMail = require("../../functions/sendMail")
+const validateUsername = require("../../functions/validateUsername")
 
 router.post("/register", reCaptchaVerify, async (req, res) => {
   try {
@@ -20,7 +21,24 @@ router.post("/register", reCaptchaVerify, async (req, res) => {
       return res.status(400).json({ success: false, message: "username is required", code: 400 })
     }
 
-    const username = usernameUP.toLowerCase()
+    if(name.length > 50) {
+      return res.status(400).json({success: false, message: "name cannot be longer than 50 characters", code: 400})
+    }
+
+    const username = usernameUP.toLowerCase().replace("@", "")
+
+    if(username.length > 16) {
+      return res.status(400).json({success: false, message: "username exceeds maximum character length", code: 400})
+    }
+
+    if(username.length <3) {
+      return res.status(400).json({success: false, message: "username is below minimum character length", code: 400})
+    }
+
+    const isUsernameAcceptable = validateUsername(username);
+    if(!isUsernameAcceptable) {
+      return res.status(400).json({success: false, message: "username contains forbidden characters", code: 400})
+    }
 
     const userNameTaken = await accounts.findOne({ username: username })
 
@@ -142,6 +160,51 @@ router.post("/verify-login", async(req, res) => {
       }
     })
   } catch (e) {
+    console.error(e)
+    return res.status(500).json({ success: false, message: "Internal server error", code: 500 })
+  }
+})
+
+router.post("/login", reCaptchaVerify, async(req, res) => {
+  try { 
+    const {email} = req.body;
+
+    if(!email) {
+      return res.status(400).json({success: false, message: "email is required", code: 400})
+    }
+
+    const accountExist = await accounts.findOne({email: email});
+    if(!accountExist) {
+      return res.status(404).json({success:false, message: "account does not exist", code: 404})
+    }
+
+
+    let token_data = {
+      _id: accountExist._id,
+      pid: accountExist.pid,
+      type: 'USER_ACCOUNT_LOGIN_TOKEN'
+    }
+    const token = jwt.sign(token_data, JWT_SECRET, { expiresIn: '2h' })
+ let url = `${process.env.FRONTEND_URL}/verify?token=${token}`
+
+ let EMAIL_CONTENT = `Hi ${accountExist.name}\n\nYou just requested to login to your planelix account. To login click this link ${url}. If this wasn't you please ignore this message. This link will expire in 2 hours.\n\nThanks - Shaheer`
+
+
+ await sendMail(EMAIL_CONTENT, `${accountExist.name}, login to your planelix account`, email)
+
+ return res.status(200).json({success: true, message: "check your email for a login link", code:200})
+   
+  } catch (e) {
+    console.error(e)
+    return res.status(500).json({ success: false, message: "Internal server error", code: 500 })
+  }
+})
+
+
+router.post("/terminate-sessions", async(req, res) => {
+  try { 
+    //soonTm
+    } catch (e) {
     console.error(e)
     return res.status(500).json({ success: false, message: "Internal server error", code: 500 })
   }
