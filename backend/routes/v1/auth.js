@@ -227,7 +227,12 @@ router.post("/terminate-sessions", verifyUserToken,async(req, res) => {
 
 router.get("/getuser", verifyUserToken, async(req, res) => {
   try { 
-    const account = req.account;
+    let account = req.account;
+    const user = await accounts.findOne({_id: account._id}).select('-pid');
+    user.last_loggedIn = Date.now()
+    await user.save()
+
+    account = user;
     return res.status(200).json({success: true, message: "authorized", data: account, code: 200})
     } catch (e) {
     console.error(e)

@@ -6,6 +6,10 @@ const accounts = new mongoose.Schema({
     email: String,
     username: String,
     activated: Boolean,
+    last_loggedIn: {
+        type: Number,
+        default: null
+    },
     name: String,
     followers: Array,
     following: Array,

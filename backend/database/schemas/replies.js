@@ -5,7 +5,8 @@ const replies = new mongoose.Schema({
     user_id: String,
     content: String,
     createdAt: Number,
-    replied_to: String //post Id reply Id
+    replied_to: String,
+    likes: Array, //post Id reply Id
 
 })
 
