@@ -1,8 +1,24 @@
 import { Providers } from "@/providers/provider";
 
 export const metadata = {
-  title: "Planelix",
-  description: "Welcome to planelix the place where you can explore and share aviation content",
+  title: 'Planelix - Home',
+  description: 'Welcome to planelix, the place where you explore aviation',
+  keywords: ['aviation', 'boeing', 'airbus', 'plane', 'airplane', 'fighterjet', 'sky'],
+  icons: {
+    icon: '/assets/logo.png',
+   
+  },
+  openGraph: {
+    title: 'Planelix',
+    description: 'Welcome to planelix, the place where you explore aviation',
+    site_name: 'planelixp',
+    images: [
+      {
+        url: '/assets/logo.png',
+      },
+    ],
+  },
+
 };
 
 export default function RootLayout({

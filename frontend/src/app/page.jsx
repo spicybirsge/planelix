@@ -1,6 +1,7 @@
 'use client' 
 import {user} from '@/state/store'
 import { useEffect } from 'react';
+import SideBar from '@/components/SideBar';
 export default function Home() {
   
 const userState = user((state) => state.user);
@@ -10,10 +11,15 @@ const loadedState = user((state) => state.loaded);
     console.log(loadedState)
   
   }, [])
+
+  let my_user = {
+    //dummy object for now
+    username: 'shaheer',
+    name: 'shaheer ahamed',
+    email: 'shaheer@example.com'
+  }
   return (
-   <><h1>Hello World</h1>
-   <button>Hello</button>
-   <h1>{userState.username}</h1>
-   <h2>Loaded: {loadedState.toString()}</h2></>
+   <><SideBar loggedIn={true} user={my_user}></SideBar></>
+  
   );
 }
