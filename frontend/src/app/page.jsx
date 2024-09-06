@@ -19,7 +19,7 @@ const loadedState = user((state) => state.loaded);
     email: 'shaheer@example.com'
   }
   return (
-   <><SideBar loggedIn={true} user={my_user} active={"home"}></SideBar></>
+   <><SideBar loggedIn={true} user={my_user} active={"home"} element={<><p>Hi</p></>}></SideBar></>
   
   );
 }
