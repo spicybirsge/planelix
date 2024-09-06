@@ -6,6 +6,7 @@ comments replies
 follow / unfollow
 view followers and following
 mentions
+view liked posts
 search function
 Trending page which shows top posts with most views in last 2 days
 clicking on hashtag takes you to a page which shows the top posts with most views (all time)
