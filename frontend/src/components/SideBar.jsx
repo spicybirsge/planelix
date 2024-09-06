@@ -1,5 +1,6 @@
 'use client'
-import Image from 'next/image'
+import NextLink from 'next/link'
+import { Link } from '@chakra-ui/react'
 import {
   IconButton,
   Avatar,
@@ -14,29 +15,25 @@ import {
   Drawer,
   DrawerContent,
   useDisclosure,
-  BoxProps,
-  FlexProps,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
-  MenuOptionGroup,
   MenuGroup,
-  Spacer
+
 } from '@chakra-ui/react'
 import {
   FiHome,
   FiTrendingUp,
-  FiCompass,
   FiPlus,
- 
+
   FiMenu,
   FiBell,
   FiChevronDown,
   FiBookmark,
   FiUser,
-  FiSearch 
+  FiSearch,
+  FiHeart
 } from 'react-icons/fi'
 
 
@@ -44,13 +41,26 @@ import {
 
 function SideBar(props) {
   const LinkItems = [
-    { name: 'Home', icon: FiHome, active: props.active === "home"? true:false },
-    { name: 'Search', icon: FiSearch, active: props.active === "search" ? true: false },
-    { name: 'Trending', icon: FiTrendingUp, active: props.active === "trending" ? true : false },
-    { name: 'Saved', icon: FiBookmark, active: props.active === "saved" ? true:false },
-    { name: 'Profile', icon: FiUser, active: props.active === "profile" ? true : false },
-    { name: 'New Post', icon: FiPlus, active: props.active === "new" ? true :false },
+    { name: 'Home', icon: FiHome, active: props.active === "home" ? true : false, link: '/' },
+    { name: 'Search', icon: FiSearch, active: props.active === "search" ? true : false, link: '/search' },
+    { name: 'Trending', icon: FiTrendingUp, active: props.active === "trending" ? true : false, link: '/trending' },
+    ,
+
+
+
   ]
+
+  if (props.loggedIn) {
+    LinkItems.push(
+      { name: 'Liked', icon: FiHeart, active: props.active === "liked" ? true : false, link: '/liked' },
+      { name: 'Saved', icon: FiBookmark, active: props.active === "saved" ? true : false, link: '/saved' },
+      { name: 'New Post', icon: FiPlus, active: props.active === "new" ? true : false, link: `/new` },
+      { name: 'Profile', icon: FiUser, active: props.active === "profile" ? true : false, link: `/@${props.user?.username}` },
+  
+
+    
+    )
+  }
 
   const SidebarContent = ({ onClose, ...rest }) => {
     return (
@@ -70,12 +80,13 @@ function SideBar(props) {
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
         {LinkItems.map((link) => (
-          <><NavItem key={link.name} icon={link.icon} active={link.active}>
-            
-            {link.name}
-           
-          </NavItem>
-          <div style={{marginBottom: '8px'}}></div>
+          <><Link key={link.name} as={NextLink} href={link.link}>
+            <NavItem key={link.name} icon={link.icon} active={link.active}>
+
+              {link.name}
+
+            </NavItem></Link>
+            <div style={{ marginBottom: '8px' }}></div>
           </>
         ))}
       </Box>
@@ -85,8 +96,7 @@ function SideBar(props) {
   const NavItem = ({ icon, active, children, ...rest }) => {
     return (
       <Box
-        as="a"
-        href="#"
+
         style={{ textDecoration: 'none' }}
         _focus={{ boxShadow: 'none' }}>
         <Flex
@@ -96,8 +106,8 @@ function SideBar(props) {
           borderRadius="lg"
           role="group"
           cursor="pointer"
-          bg={active ? '#edf2f7' : 'transparent'}  
-          color={active ? 'black' : 'inherit'}  
+          bg={active ? '#edf2f7' : 'transparent'}
+          color={active ? 'black' : 'inherit'}
           _hover={{
             bg: '#edf2f7',
             color: 'black',
@@ -149,7 +159,7 @@ function SideBar(props) {
 
         <HStack spacing={{ base: '0', md: '6' }}>
           {props.loggedIn ? (
-            <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
+            <Link as={NextLink} href='/notifications'><IconButton size="lg" variant="ghost" icon={<FiBell />} /></Link>
           ) : (
             <></>
           )}
@@ -158,7 +168,7 @@ function SideBar(props) {
               <Menu>
                 <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
                   <HStack>
-                    <Avatar size={'sm'} name={props?.user?.name} />
+                    <Avatar size={'sm'} name={props?.user?.name} src={props.user.avatar}/>
                     <VStack
                       display={{ base: 'none', md: 'flex' }}
                       alignItems="flex-start"
@@ -179,9 +189,9 @@ function SideBar(props) {
                   </MenuGroup>
 
                   <MenuGroup title={'Account'}>
-                    <MenuItem>Settings</MenuItem>
-                    <MenuItem>Profile</MenuItem>
-                    <MenuItem>Logout</MenuItem>
+                    <Link as={NextLink} href={"/settings"}><MenuItem>Settings</MenuItem></Link>
+                    <Link as={NextLink} href={`/@${props.user.username}`}> <MenuItem>Profile</MenuItem></Link>
+                    <Link as={NextLink} href={"/logout"}><MenuItem>Logout</MenuItem></Link>
                   </MenuGroup>
                 </MenuList>
               </Menu>
@@ -206,8 +216,8 @@ function SideBar(props) {
                   <MenuList
                     bg={useColorModeValue('white', 'gray.900')}
                     borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                    <MenuItem>Login</MenuItem>
-                    <MenuItem>Register</MenuItem>
+                    <MenuItem><Link as={NextLink} href={"/login"}>Login</Link></MenuItem>
+                    <MenuItem><Link as={NextLink} href={"/register"}>Register</Link></MenuItem>
                   </MenuList>
                 </Menu>
               </>
@@ -234,7 +244,7 @@ function SideBar(props) {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
+     
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         {props.element}
