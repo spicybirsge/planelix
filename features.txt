@@ -1,0 +1,12 @@
+
+notifications
+feed
+posts
+comments replies
+follow / unfollow
+view followers and following
+mentions
+search function
+Trending page which shows top posts with most views in last 2 days
+clicking on hashtag takes you to a page which shows the top posts with most views (all time)
+

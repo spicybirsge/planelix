@@ -22,35 +22,36 @@ import {
   MenuItem,
   MenuList,
   MenuOptionGroup,
-  MenuGroup
+  MenuGroup,
+  Spacer
 } from '@chakra-ui/react'
 import {
   FiHome,
   FiTrendingUp,
   FiCompass,
+  FiPlus,
  
   FiMenu,
   FiBell,
   FiChevronDown,
   FiBookmark,
-  FiUser 
+  FiUser,
+  FiSearch 
 } from 'react-icons/fi'
 
 
 
 
-
-const SideBar = (props) => {
+function SideBar(props) {
   const LinkItems = [
-    { name: 'Home', icon: FiHome },
-    { name: 'Trending', icon: FiTrendingUp },
-    { name: 'Explore', icon: FiCompass },
-    { name: 'Saved', icon: FiBookmark },
-    { name: 'Profile', icon: FiUser  },
-   
- 
+    { name: 'Home', icon: FiHome, active: props.active === "home"? true:false },
+    { name: 'Search', icon: FiSearch, active: props.active === "search" ? true: false },
+    { name: 'Trending', icon: FiTrendingUp, active: props.active === "trending" ? true : false },
+    { name: 'Saved', icon: FiBookmark, active: props.active === "saved" ? true:false },
+    { name: 'Profile', icon: FiUser, active: props.active === "profile" ? true : false },
+    { name: 'New Post', icon: FiPlus, active: props.active === "new" ? true :false },
   ]
-  
+
   const SidebarContent = ({ onClose, ...rest }) => {
     return (
       <Box
@@ -69,15 +70,19 @@ const SideBar = (props) => {
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
         {LinkItems.map((link) => (
-          <NavItem key={link.name} icon={link.icon}>
+          <><NavItem key={link.name} icon={link.icon} active={link.active}>
+            
             {link.name}
+           
           </NavItem>
+          <div style={{marginBottom: '8px'}}></div>
+          </>
         ))}
       </Box>
     )
   }
-  
-  const NavItem = ({ icon, children, ...rest }) => {
+
+  const NavItem = ({ icon, active, children, ...rest }) => {
     return (
       <Box
         as="a"
@@ -91,6 +96,8 @@ const SideBar = (props) => {
           borderRadius="lg"
           role="group"
           cursor="pointer"
+          bg={active ? '#edf2f7' : 'transparent'}  
+          color={active ? 'black' : 'inherit'}  
           _hover={{
             bg: '#edf2f7',
             color: 'black',
@@ -111,9 +118,8 @@ const SideBar = (props) => {
       </Box>
     )
   }
-  
+
   const MobileNav = ({ onOpen, ...rest }) => {
-  
     return (
       <Flex
         ml={{ base: 0, md: 60 }}
@@ -132,93 +138,86 @@ const SideBar = (props) => {
           aria-label="open menu"
           icon={<FiMenu />}
         />
-  
+
         <Text
           display={{ base: 'flex', md: 'none' }}
           fontSize="2xl"
           fontFamily="monospace"
           fontWeight="bold">
-         Planelix
+          Planelix
         </Text>
-  
-        <HStack spacing={{ base: '0', md: '6' }}>
-          
-          {props.loggedIn? <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} /> : <></>}
-          <Flex alignItems={'center'}>
-            {props.loggedIn? <Menu>
-              <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
-                <HStack>
-                  <Avatar
-                    size={'sm'}
-                   name={props?.user?.name}
-                  />
-                  <VStack
-                    display={{ base: 'none', md: 'flex' }}
-                    alignItems="flex-start"
-                    spacing="1px"
-                    ml="2">
-                    <Text fontSize="sm">{props.user?.name || "unknown"}</Text>
-                  
-                  </VStack>
-                  <Box display={{ base: 'none', md: 'flex' }}>
-                    <FiChevronDown />
-                  </Box>
-                </HStack>
-              </MenuButton>
-              <MenuList
-                bg={useColorModeValue('white', 'gray.900')}
-                borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                  <MenuGroup title={'Logged in as'}>                     <MenuItem>{props.user.email || "unknown"}</MenuItem></MenuGroup>
 
-                  <MenuGroup title={'Account'}>   
-                  <MenuItem>Settings</MenuItem>      
-                  <MenuItem>Profile</MenuItem>
-                
-                
-         
-                <MenuItem>Logout</MenuItem>           </MenuGroup>
-                
-              </MenuList>
-            </Menu> : <><Menu>
-              <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
-                <HStack>
-                  <Avatar
-                    size={'sm'}
-                   name={props?.user?.name}
-                  />
-                  <VStack
-                    display={{ base: 'none', md: 'flex' }}
-                    alignItems="flex-start"
-                    spacing="1px"
-                    ml="2">
-                    <Text fontSize="sm">Login or Register</Text>
-                  
-                  </VStack>
-                  <Box display={{ base: 'none', md: 'flex' }}>
-                    <FiChevronDown />
-                  </Box>
-                </HStack>
-              </MenuButton>
-              <MenuList
-                bg={useColorModeValue('white', 'gray.900')}
-                borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                 
+        <HStack spacing={{ base: '0', md: '6' }}>
+          {props.loggedIn ? (
+            <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
+          ) : (
+            <></>
+          )}
+          <Flex alignItems={'center'}>
+            {props.loggedIn ? (
+              <Menu>
+                <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
+                  <HStack>
+                    <Avatar size={'sm'} name={props?.user?.name} />
+                    <VStack
+                      display={{ base: 'none', md: 'flex' }}
+                      alignItems="flex-start"
+                      spacing="1px"
+                      ml="2">
+                      <Text fontSize="sm">{props.user?.name || 'unknown'}</Text>
+                    </VStack>
+                    <Box display={{ base: 'none', md: 'flex' }}>
+                      <FiChevronDown />
+                    </Box>
+                  </HStack>
+                </MenuButton>
+                <MenuList
+                  bg={useColorModeValue('white', 'gray.900')}
+                  borderColor={useColorModeValue('gray.200', 'gray.700')}>
+                  <MenuGroup title={'Logged in as'}>
+                    <MenuItem>{props.user.email || 'unknown'}</MenuItem>
+                  </MenuGroup>
+
+                  <MenuGroup title={'Account'}>
+                    <MenuItem>Settings</MenuItem>
+                    <MenuItem>Profile</MenuItem>
+                    <MenuItem>Logout</MenuItem>
+                  </MenuGroup>
+                </MenuList>
+              </Menu>
+            ) : (
+              <>
+                <Menu>
+                  <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
+                    <HStack>
+                      <Avatar size={'sm'} name={props?.user?.name} />
+                      <VStack
+                        display={{ base: 'none', md: 'flex' }}
+                        alignItems="flex-start"
+                        spacing="1px"
+                        ml="2">
+                        <Text fontSize="sm">Login or Register</Text>
+                      </VStack>
+                      <Box display={{ base: 'none', md: 'flex' }}>
+                        <FiChevronDown />
+                      </Box>
+                    </HStack>
+                  </MenuButton>
+                  <MenuList
+                    bg={useColorModeValue('white', 'gray.900')}
+                    borderColor={useColorModeValue('gray.200', 'gray.700')}>
                     <MenuItem>Login</MenuItem>
                     <MenuItem>Register</MenuItem>
-               
-                
-                
-             
-          
-              </MenuList>
-            </Menu></>}
-            
+                  </MenuList>
+                </Menu>
+              </>
+            )}
           </Flex>
         </HStack>
       </Flex>
     )
   }
-  
+
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -238,7 +237,7 @@ const SideBar = (props) => {
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-   {props.element }
+        {props.element}
       </Box>
     </Box>
   )
