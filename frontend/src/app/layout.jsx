@@ -11,7 +11,7 @@ export const metadata = {
   openGraph: {
     title: 'Planelix',
     description: 'Welcome to planelix, the place where you explore aviation',
-    site_name: 'planelixp',
+    site_name: 'planelix',
     images: [
       {
         url: '/assets/logo.png',
