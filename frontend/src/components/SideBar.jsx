@@ -216,8 +216,8 @@ function SideBar(props) {
                   <MenuList
                     bg={useColorModeValue('white', 'gray.900')}
                     borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                    <MenuItem><Link as={NextLink} href={"/login"}>Login</Link></MenuItem>
-                    <MenuItem><Link as={NextLink} href={"/register"}>Register</Link></MenuItem>
+                   <Link as={NextLink} href={"/login"}> <MenuItem>Login</MenuItem></Link>
+                   <Link as={NextLink} href={"/register"}> <MenuItem>Register</MenuItem></Link>
                   </MenuList>
                 </Menu>
               </>
