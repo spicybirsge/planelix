@@ -106,7 +106,7 @@ export default function Login() {
    We sent you an email!
   </AlertTitle>
   <AlertDescription >
-    We sent you an email with a link to login to your inbox at <Text as={"b"}>{email}</Text>. Please click on the link we sent you to login.
+    We sent you an email with a link to login to your inbox at <Text as={"b"}>{email}</Text>. Please click on the link we sent you to login. You may close this page.
   </AlertDescription>
 </Alert></Center></>
     </>: <> <Container maxW='md'>
