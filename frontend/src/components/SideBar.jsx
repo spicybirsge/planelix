@@ -56,9 +56,9 @@ function SideBar(props) {
       { name: 'Saved', icon: FiBookmark, active: props.active === "saved" ? true : false, link: '/saved' },
       { name: 'New Post', icon: FiPlus, active: props.active === "new" ? true : false, link: `/new` },
       { name: 'Profile', icon: FiUser, active: props.active === "profile" ? true : false, link: `/@${props.user?.username}` },
-  
 
-    
+
+
     )
   }
 
@@ -168,7 +168,7 @@ function SideBar(props) {
               <Menu>
                 <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
                   <HStack>
-                    <Avatar size={'sm'} name={props?.user?.name} src={props.user.avatar}/>
+                    <Avatar size={'sm'} name={props?.user?.name} src={props.user.avatar} />
                     <VStack
                       display={{ base: 'none', md: 'flex' }}
                       alignItems="flex-start"
@@ -216,8 +216,8 @@ function SideBar(props) {
                   <MenuList
                     bg={useColorModeValue('white', 'gray.900')}
                     borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                   <Link as={NextLink} href={"/login"}> <MenuItem>Login</MenuItem></Link>
-                   <Link as={NextLink} href={"/register"}> <MenuItem>Register</MenuItem></Link>
+                    <Link as={NextLink} href={"/login"}> <MenuItem>Login</MenuItem></Link>
+                    <Link as={NextLink} href={"/register"}> <MenuItem>Register</MenuItem></Link>
                   </MenuList>
                 </Menu>
               </>
@@ -244,7 +244,7 @@ function SideBar(props) {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-     
+
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         {props.element}

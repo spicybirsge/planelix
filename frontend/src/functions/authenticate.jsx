@@ -4,15 +4,15 @@ import vars from '@/vars/vars'
 
 
 export default async function authenticate() {
-    
 
-    const url = vars.BACKEND_URL+"/api/v1/auth/getuser"
 
-   
+    const url = vars.BACKEND_URL + "/api/v1/auth/getuser"
+
+
     const token = window.localStorage.getItem("token");
 
-    if(!token) {
-        return user.setState({loaded: true, user: null});
+    if (!token) {
+        return user.setState({ loaded: true, user: null });
 
     }
 
@@ -27,9 +27,9 @@ export default async function authenticate() {
 
     const response = await request.json();
 
-    if(response.success) {
-        return user.setState({loaded: true, user: response.data})
+    if (response.success) {
+        return user.setState({ loaded: true, user: response.data })
     } else {
-        return user.setState({loaded: true, user: null})
+        return user.setState({ loaded: true, user: null })
     }
 }

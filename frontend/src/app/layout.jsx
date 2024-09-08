@@ -6,7 +6,7 @@ export const metadata = {
   keywords: ['aviation', 'boeing', 'airbus', 'plane', 'airplane', 'fighterjet', 'sky'],
   icons: {
     icon: '/assets/logo.png',
-   
+
   },
   openGraph: {
     title: 'Planelix',
