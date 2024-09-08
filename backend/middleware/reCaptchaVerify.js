@@ -1,7 +1,7 @@
 const fetch = require("node-fetch")
 
 const reCaptchVerify = async (req, res, next) => {
-    let CAPTCHA_DISABLED = true; //set to true when api is being tested since we cannot solve captcha when testing.
+    let CAPTCHA_DISABLED = false; //set to true when api is being tested since we cannot solve captcha when testing.
 
     try {
         if (CAPTCHA_DISABLED) {
