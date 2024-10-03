@@ -8,7 +8,7 @@ const posts = new mongoose.Schema({
     likes: Array,
     edited: Boolean,
     createdAt: Number,
-    category: String, //take-off, landing, flying, other
+    category: String, //take-off, landing, in-sky, other
     aircraft_model: String,
     approved: Boolean
 
