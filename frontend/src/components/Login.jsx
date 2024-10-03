@@ -115,7 +115,7 @@ export default function Login() {
         <InputGroup>
             <InputLeftElement>
                 <EmailIcon boxSize={5}></EmailIcon></InputLeftElement>
-            <Input placeholder='you@example.com' style={{ marginBottom: "6px" }} value={email} onChange={(e) => { setEmail(e.target.value) }} focusBorderColor='gray.400'></Input></InputGroup>
+            <Input type="email" placeholder='you@example.com' style={{ marginBottom: "6px" }} value={email} onChange={(e) => { setEmail(e.target.value) }} focusBorderColor='gray.400'></Input></InputGroup>
         <ReCAPTCHA sitekey={vars.RECAPTCHA_SITE_KEY} style={{ marginBottom: '5px' }} ref={reCaptchaRef}></ReCAPTCHA>
         <Button colorScheme={"orange"} isLoading={submitting} size={"md"} onClick={SubmitLoginDetails} style={{ width: "100%", marginBottom: '6px' }}>Login</Button>
         <Text as={"p"} style={{ textAlign: 'center' }} color={"gray"}>Don't have an account? <Link as={NextLink} href='/register' style={{ textDecoration: 'underline' }}>Create one!</Link></Text></Container>
