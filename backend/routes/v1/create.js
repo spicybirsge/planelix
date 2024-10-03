@@ -21,22 +21,22 @@ router.post("/post", verifyUserToken, async (req, res) => {
             category = "other"
         }
 
-        if(category !== "take-off" && category !== "landing" && category !== 'in-sky' && category !== "other") {
-            return res.status(400).json({success:false, message: 'invalid category', code:400})
+        if (category !== "take-off" && category !== "landing" && category !== 'in-sky' && category !== "other") {
+            return res.status(400).json({ success: false, message: 'invalid category', code: 400 })
         }
 
-        if(caption && caption.length > 280) {
-            return res.status(400).json({success:false, message: 'caption is too long (max: 280)', code: 400})
+        if (caption && caption.length > 280) {
+            return res.status(400).json({ success: false, message: 'caption is too long (max: 280)', code: 400 })
         }
 
         if (!Array.isArray(attachments)) {
             return res.status(400).json({ success: false, message: 'attachments must be an array', code: 400 })
         }
 
-        for(const al of attachments) {
-            if(!al.startsWith("https://shaheercdn.onrender.com/")) {
-               res.status(400).json({ success: false, message: 'attachments must be an array', code: 400 })
-               break;
+        for (const al of attachments) {
+            if (!al.startsWith("https://shaheercdn.onrender.com/")) {
+                res.status(400).json({ success: false, message: 'attachments must be an array', code: 400 })
+                break;
 
 
             }
@@ -60,7 +60,7 @@ router.post("/post", verifyUserToken, async (req, res) => {
 
 
         await posts.create(post_object);
-        return res.status(200).json({success:true, message: 'post created', data:post_object, code:200})
+        return res.status(200).json({ success: true, message: 'post created', data: post_object, code: 200 })
 
 
 
