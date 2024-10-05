@@ -7,8 +7,8 @@ const uuid = require("uuid");
 
 router.post("/post", verifyUserToken, async (req, res) => {
     try {
-        let { caption, aircraft_model, category } = req.body;
-        const { attachments } = req.body;
+        let { caption, aircraft_model, category, attachments  } = req.body;
+       
         if (!caption) {
             caption = null;
         }
@@ -35,11 +35,15 @@ router.post("/post", verifyUserToken, async (req, res) => {
 
         for (const al of attachments) {
             if (!al.startsWith("https://shaheercdn.onrender.com/")) {
-                res.status(400).json({ success: false, message: 'attachments must be an array', code: 400 })
+                attachments = false;
                 break;
 
 
             }
+        }
+
+        if(!attachments) {
+           return res.status(400).json({ success: false, message: 'invalid attachment url', code: 400 })
         }
 
         const postId = uuid.v4()
