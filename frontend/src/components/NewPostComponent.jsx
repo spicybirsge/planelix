@@ -30,5 +30,7 @@ export default function NewPostComponent() {
 
         router.push("/login", {scroll: false})
     }
-    return <SideBar loggedIn={userState ? true : false} active={"new"} user={userState}></SideBar>
+    return <SideBar loggedIn={userState ? true : false} active={"new"} user={userState}
+    
+    element={<h1>dummy element</h1>}></SideBar>
 }
