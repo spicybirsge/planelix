@@ -63,7 +63,7 @@ export default function NewPostComponent() {
 
                 <input type="file" accept="image/jpeg, image/png, image/jpg, image/gif, video/mp4, video/webm, video/ogg" multiple></input>
             </InputGroup>
-            <Button colorScheme={"orange"} style={{ marginTop: '10px' }}>Post</Button>
+            <Button colorScheme={"orange"} style={{ marginTop: '15px', width: '100%' }}>Create Post</Button>
         </CardBody>
     </Card></Container>
     return <SideBar loggedIn={userState ? true : false} active={"new"} user={userState}
