@@ -1,0 +1,1 @@
+make sure to create a notification for the followers of the user after the user makes a post.

@@ -8,6 +8,10 @@ import { useRouter } from 'next/navigation';
 import { Input, InputGroup, Text, Center, Container, Card, CardBody, CardHeader, Button, Textarea, Divider, Select } from '@chakra-ui/react'
 export default function NewPostComponent() {
 
+    const [aircraftModel, setAircraftModel] = useState(null)
+
+    const [caption, setCaption]= useState(null)
+    const [category, setCategory] = useState('take-off')
     const router = useRouter()
     const userState = user((state) => state.user);
     const loadedState = user((state) => state.loaded);
@@ -42,15 +46,15 @@ export default function NewPostComponent() {
 
             <Text as={"p"}>Aircraft Model</Text>
             <InputGroup >
-                <Input type="text" placeholder={"Aircraft model name in your post attachment (optional)"} style={{ marginBottom: '10px' }}></Input>
+                <Input type="text" placeholder={"Aircraft model name in your post attachment (optional)"} style={{ marginBottom: '10px' }} value={aircraftModel} onChange={(e) => {setAircraftModel(e.target.value)}}></Input>
             </InputGroup>
             <Text as={"p"}>Caption</Text>
             <InputGroup >
-                <Textarea type="text" placeholder={"Your posts caption (optional)"} style={{ marginBottom: '10px' }}></Textarea>
+                <Textarea value={caption} onChange={(e) => {setCaption(e.target.value)}} type="text" placeholder={"Your posts caption (optional)"} style={{ marginBottom: '10px' }}></Textarea>
             </InputGroup>
             <Text as={"p"}>Category</Text>
             <InputGroup >
-                <Select >
+                <Select value={category} onChange={(e) => {setCategory(e.target.value)}}>
                     <option value='take-off'>take off</option>
                     <option value='in-sky'>in sky</option>
                     <option value='landing'>landing</option>
