@@ -12,6 +12,7 @@ export default function NewPostComponent() {
 
     const [caption, setCaption]= useState(null)
     const [category, setCategory] = useState('take-off')
+    const [file, setFile] = useState(null)
     const router = useRouter()
     const userState = user((state) => state.user);
     const loadedState = user((state) => state.loaded);
@@ -65,7 +66,7 @@ export default function NewPostComponent() {
             <Text as={"p"} >Post attachment</Text>
             <InputGroup >
 
-                <input type="file" accept="image/jpeg, image/png, image/jpg, image/gif, video/mp4, video/webm, video/ogg" multiple></input>
+                <input type="file" accept="image/jpeg, image/png, image/jpg, image/gif, video/mp4, video/webm, video/ogg" multiple onChange={(e) => {setFile(e.target.files)}}></input>
             </InputGroup>
             <Button colorScheme={"orange"} style={{ marginTop: '15px', width: '100%' }}>Create Post</Button>
         </CardBody>

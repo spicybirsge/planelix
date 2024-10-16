@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const verifyUserToken = require("../../middleware/verifyUserToken");
 const posts = require("../../database/schemas/posts")
+const notifications = require("../../database/schemas/notifications")
 const uuid = require("uuid");
 
 
@@ -64,6 +65,19 @@ router.post("/post", verifyUserToken, async (req, res) => {
 
 
         await posts.create(post_object);
+        const followers = req.account.followers;
+        followers.forEach(async (flwer) => {
+            const notificationId = uuid.v4()
+            await notifications.create({
+
+                _id: notificationId,
+                user_id: flwer,
+                content: `${req.account.name} (@${req.account.username}) created a new post`,
+                icon_url: req.account.avatar || null,
+                link:`/posts/${postId}`,
+                is_read: false
+            })
+        })
         return res.status(200).json({ success: true, message: 'post created', data: post_object, code: 200 })
 
 
