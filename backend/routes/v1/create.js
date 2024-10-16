@@ -35,7 +35,7 @@ router.post("/post", verifyUserToken, async (req, res) => {
         }
 
         for (const al of attachments) {
-            if (!al.startsWith("https://shaheercdn.onrender.com/")) {
+            if (!al.startsWith("https://res.cloudinary.com/" && !al.startsWith("https://shaheercdn.onrender.com/"))) {
                 attachments = false;
                 break;
 
